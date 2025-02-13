@@ -9,12 +9,22 @@ const QuestionAttempt = ({ question, onClose, onSubmit }) => {
   const [explanation, setExplanation] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const options = [
-    { id: 'A', text: 'Option A' },
-    { id: 'B', text: 'Option B' },
-    { id: 'C', text: 'Option C' },
-    { id: 'D', text: 'Option D' }
-  ];
+  const generateOptions = () => {
+    const uniqueOptions = [];
+    const optionCount = 4; // Number of options to generate
+    const existingOptions = new Set();
+
+    while (uniqueOptions.length < optionCount) {
+      const randomOption = `Option ${String.fromCharCode(65 + uniqueOptions.length)}`;
+      if (!existingOptions.has(randomOption)) {
+        uniqueOptions.push({ id: String.fromCharCode(65 + uniqueOptions.length), text: randomOption });
+        existingOptions.add(randomOption);
+      }
+    }
+    return uniqueOptions;
+  };
+
+  const options = generateOptions();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,6 +49,7 @@ const QuestionAttempt = ({ question, onClose, onSubmit }) => {
           topic: question.topic,
           score: score,
           selectedOption,
+          options, // Save generated options
           explanation,
           attemptedAt: new Date().toISOString()
         })

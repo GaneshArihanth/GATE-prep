@@ -64,16 +64,16 @@ function App() {
               element={user ? <Home /> : <Navigate to="/login" />} 
             />
             <Route 
-              path="/dashboard" 
-              element={user ? <Dashboard /> : <Navigate to="/login" />} 
+              path="/problems" 
+              element={user ? <Problems /> : <Navigate to="/login" />} 
             />
             <Route 
               path="/quiz" 
               element={user ? <Quiz /> : <Navigate to="/login" />} 
             />
             <Route 
-              path="/problems" 
-              element={user ? <Problems /> : <Navigate to="/login" />} 
+              path="/dashboard" 
+              element={user ? <Dashboard /> : <Navigate to="/login" />} 
             />
             <Route 
               path="/discuss" 

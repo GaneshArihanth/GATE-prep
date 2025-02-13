@@ -1,0 +1,194 @@
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Background Styling - Matching Landing Page */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, #111827, #1e293b); /* Dark gradient */
+    color: white;
+}
+
+/* Login Box */
+.login-box {
+    background: #1e293b; /* Dark blue-gray */
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Title */
+.login-box h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Login Form */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Input Groups */
+.input-group {
+    display: flex;
+    align-items: center;
+    background: #334155;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(99, 102, 241, 0.2);
+}
+
+/* Input Fields */
+.input-group input {
+    border: none;
+    background: transparent;
+    color: white;
+    margin-left: 10px;
+    outline: none;
+    flex: 1;
+    font-size: 1rem;
+}
+
+/* Icons */
+.icon {
+    color: #bbb;
+    font-size: 1.2rem;
+}
+
+/* Smooth Spacing Transition */
+.role-dropdown-container {
+    transition: margin-bottom 0.3s ease-in-out;
+    margin-bottom: 10px;
+}
+
+.role-dropdown-container.expanded {
+    margin-bottom: 57px;
+}
+
+/* Role Selection */
+.role-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+}
+
+/* Select Dropdown */
+select {
+    padding: 10px;
+    border-radius: 5px;
+    background: #334155;
+    color: white;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Neon Button Styling */
+.login-button {
+    position: relative;
+    padding: 14px 36px;
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: #f8fafc;
+    background: #0f172a; /* Dark blue-black */
+    border: 2px solid #6366f1; /* Indigo border */
+    border-radius: 50px;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+/* Neon Glow Effect */
+.login-button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(99, 102, 241, 0.3); /* Soft indigo glow */
+    transform: scale(0);
+    transition: transform 0.4s ease-in-out;
+    border-radius: 50px;
+    opacity: 0.4;
+}
+
+/* Hover Effects */
+.login-button:hover {
+    color: #ffffff;
+    background: #6366f1;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.8);
+}
+
+.login-button:hover::before {
+    transform: scale(1);
+}
+
+/* Signup Link */
+.signup-link {
+    margin-top: 15px;
+    font-size: 1rem;
+}
+
+.signup-link a {
+    color: #6366f1;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Forgot Password Styling */
+.forgot-password {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.forgot-password-link {
+    color: #94a3b8; /* Light grayish-blue */
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease-in-out;
+}
+
+.forgot-password-link:hover {
+    color: #6366f1; /* Indigo highlight */
+    text-decoration: underline;
+}

@@ -1,4 +1,4 @@
-import { initializeQuestions } from './initQuestions';
+import { initializeQuestions } from './initQuestions.js';
 
 // Function to initialize the database
 export const initializeDatabase = async () => {

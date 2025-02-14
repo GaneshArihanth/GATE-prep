@@ -71,7 +71,13 @@
   gap: 0.5rem;
 }
 
+.user-avatar-container {
+  position: relative;
+  cursor: pointer;
+}
+
 .user-avatar {
+  cursor: pointer;
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -175,4 +181,39 @@
   .user-name {
     font-size: 0.9rem;
   }
+}
+
+/* Custom Tooltip Styles */
+.custom-tooltip {
+  visibility: hidden;
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #2c3e50;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.custom-tooltip::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent #2c3e50 transparent;
+}
+
+.user-avatar-container:hover .custom-tooltip {
+  visibility: visible;
+  opacity: 1;
 }

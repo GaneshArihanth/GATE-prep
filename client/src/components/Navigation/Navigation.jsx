@@ -36,7 +36,7 @@ const Navigation = ({ user }) => {
     <nav className="main-navigation">
       <div className="nav-container">
         <Link to="/home" className="nav-logo">
-          GATE Prep
+          BreakiT!
         </Link>
 
         <div className="nav-links">
@@ -56,10 +56,13 @@ const Navigation = ({ user }) => {
           {user && (
             <>
               <div className="user-info">
-                <div className="user-avatar">
-                  {user.email[0].toUpperCase()}
+                <div className="user-avatar-container">
+                  <div className="user-avatar">
+                    {user.email[0].toUpperCase()}
+                  </div>
+                  <div className="custom-tooltip">{user.email}</div>
                 </div>
-                <span className="user-name">{user.email}</span>
+
               </div>
               <button onClick={handleLogout} className="logout-button">
                 <FaSignOutAlt />

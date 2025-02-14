@@ -9,32 +9,34 @@
     font-family: "Poppins", sans-serif;
 }
 
-/* Background Styling - Matching Landing Page */
+/* Background Styling - White Professional Theme */
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(to right, #111827, #1e293b); /* Dark gradient */
-    color: white;
+    background: #f8f9fa; /* Light gray background */
+    color: #1e293b; /* Dark text */
 }
 
 /* Login Box */
 .login-box {
-    background: #1e293b; /* Dark blue-gray */
+    background: #ffffff; /* Pure white */
     padding: 40px;
     border-radius: 12px;
     text-align: center;
-    box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
     width: 100%;
     max-width: 400px;
+    border: 1px solid #e2e8f0; /* Light gray border */
+    margin-bottom: 300px;
 }
 
 /* Title */
 .login-box h2 {
     font-size: 2rem;
     font-weight: 700;
-    color: #e2e8f0;
+    color: #1e293b; /* Dark navy */
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 20px;
@@ -52,17 +54,17 @@
 .input-group {
     display: flex;
     align-items: center;
-    background: #334155;
+    background: #f1f5f9; /* Light gray input background */
     padding: 12px;
     border-radius: 8px;
-    box-shadow: 0 0 5px rgba(99, 102, 241, 0.2);
+    border: 1px solid #e2e8f0; /* Subtle border */
 }
 
 /* Input Fields */
 .input-group input {
     border: none;
     background: transparent;
-    color: white;
+    color: #1e293b;
     margin-left: 10px;
     outline: none;
     flex: 1;
@@ -71,7 +73,7 @@
 
 /* Icons */
 .icon {
-    color: #bbb;
+    color: #64748b; /* Muted gray */
     font-size: 1.2rem;
 }
 
@@ -97,25 +99,25 @@
 select {
     padding: 10px;
     border-radius: 5px;
-    background: #334155;
-    color: white;
-    border: none;
+    background: #f1f5f9;
+    color: #1e293b;
+    border: 1px solid #e2e8f0;
     outline: none;
     font-size: 1rem;
     cursor: pointer;
 }
 
-/* Neon Button Styling */
+/* Modern Button Styling */
 .login-button {
     position: relative;
     padding: 14px 36px;
     font-size: 1.125rem;
     font-weight: bold;
-    color: #f8fafc;
-    background: #0f172a; /* Dark blue-black */
-    border: 2px solid #6366f1; /* Indigo border */
+    color: #ffffff;
+    background: #6366f1; /* Indigo */
+    border: 2px solid #6366f1;
     border-radius: 50px;
-    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
@@ -123,12 +125,12 @@ select {
     overflow: hidden;
 }
 
-/* Neon Glow Effect */
+/* Button Glow Effect */
 .login-button::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(99, 102, 241, 0.3); /* Soft indigo glow */
+    background: rgba(99, 102, 241, 0.3);
     transform: scale(0);
     transition: transform 0.4s ease-in-out;
     border-radius: 50px;
@@ -137,10 +139,10 @@ select {
 
 /* Hover Effects */
 .login-button:hover {
-    color: #ffffff;
-    background: #6366f1;
+    color: green;
+    background: green;
     transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.8);
+    box-shadow: 0 0 20px greenyellow;
 }
 
 .login-button:hover::before {
@@ -161,6 +163,7 @@ select {
 
 .signup-link a:hover {
     text-decoration: underline;
+    color:green;
 }
 
 /* Fade-in Animation */
@@ -182,7 +185,7 @@ select {
 }
 
 .forgot-password-link {
-    color: #94a3b8; /* Light grayish-blue */
+    color: #64748b; /* Muted gray */
     text-decoration: none;
     font-size: 0.9rem;
     transition: color 0.3s ease-in-out;

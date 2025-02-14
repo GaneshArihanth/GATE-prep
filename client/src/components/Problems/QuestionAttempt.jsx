@@ -9,22 +9,8 @@ const QuestionAttempt = ({ question, onClose, onSubmit }) => {
   const [explanation, setExplanation] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const generateOptions = () => {
-    const uniqueOptions = [];
-    const optionCount = 4; // Number of options to generate
-    const existingOptions = new Set();
-
-    while (uniqueOptions.length < optionCount) {
-      const randomOption = `Option ${String.fromCharCode(65 + uniqueOptions.length)}`;
-      if (!existingOptions.has(randomOption)) {
-        uniqueOptions.push({ id: String.fromCharCode(65 + uniqueOptions.length), text: randomOption });
-        existingOptions.add(randomOption);
-      }
-    }
-    return uniqueOptions;
-  };
-
-  const options = generateOptions();
+  // Use the options from the question
+  const options = question.options || [];
 
   const handleSubmit = async (e) => {
       e.preventDefault();
@@ -50,10 +36,11 @@ const QuestionAttempt = ({ question, onClose, onSubmit }) => {
               await setDoc(userProgressRef, {});
           }
 
-          // Calculate score (for demo, we'll use a random score between 0 and 1)
-          const score = Math.random();
+          // Find if the selected option was correct and calculate score
+          const selectedOptionObj = question.options.find(opt => opt.text === selectedOption);
+          const isCorrect = selectedOptionObj?.isCorrect || false;
+          const score = isCorrect ? 1 : 0;
 
-          // Update user progress
           await updateDoc(userProgressRef, {
               completedProblems: arrayUnion({
                   id: question.id,
@@ -61,7 +48,7 @@ const QuestionAttempt = ({ question, onClose, onSubmit }) => {
                   topic: question.topic,
                   score: score,
                   selectedOption,
-                  options, // Save generated options
+                  isCorrect,
                   explanation,
                   attemptedAt: new Date().toISOString()
               })
@@ -97,16 +84,16 @@ const QuestionAttempt = ({ question, onClose, onSubmit }) => {
 
         <form onSubmit={handleSubmit}>
           <div className="options-container">
-            {options.map(option => (
-              <label key={option.id} className="option-label">
+            {options.map((option, index) => (
+              <label key={index} className="option-label">
                 <input
                   type="radio"
                   name="answer"
-                  value={option.id}
-                  checked={selectedOption === option.id}
+                  value={option.text}
+                  checked={selectedOption === option.text}
                   onChange={(e) => setSelectedOption(e.target.value)}
                 />
-                <span className="option-text">{option.text}</span>
+                <span className="option-text">{option.displayText}</span>
               </label>
             ))}
           </div>

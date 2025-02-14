@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase';
 import { toast } from 'react-toastify';
 import './QuestionAttempt.css';
@@ -27,43 +27,55 @@ const QuestionAttempt = ({ question, onClose, onSubmit }) => {
   const options = generateOptions();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!selectedOption) {
-      toast.error('Please select an option');
-      return;
-    }
+      e.preventDefault();
+      if (!selectedOption) {
+          toast.error('Please select an option');
+          return;
+      }
+  
+      setIsSubmitting(true);
+      try {
+          const user = auth.currentUser;
+          if (!user) {
+              toast.error('User not authenticated.');
+              return;
+          }
+          const userId = user.uid;
+          const userProgressRef = doc(db, 'userProgress', userId);
 
-    setIsSubmitting(true);
-    try {
-      const userId = auth.currentUser.uid;
-      const userProgressRef = doc(db, 'userProgress', userId);
+          // Check if the document exists
+          const userProgressDoc = await getDoc(userProgressRef);
+          if (!userProgressDoc.exists()) {
+              // Create the document if it doesn't exist
+              await setDoc(userProgressRef, {});
+          }
 
-      // Calculate score (for demo, we'll use a random score between 0 and 1)
-      const score = Math.random();
+          // Calculate score (for demo, we'll use a random score between 0 and 1)
+          const score = Math.random();
 
-      // Update user progress
-      await updateDoc(userProgressRef, {
-        completedProblems: arrayUnion({
-          id: question.id,
-          subject: question.subject,
-          topic: question.topic,
-          score: score,
-          selectedOption,
-          options, // Save generated options
-          explanation,
-          attemptedAt: new Date().toISOString()
-        })
-      });
+          // Update user progress
+          await updateDoc(userProgressRef, {
+              completedProblems: arrayUnion({
+                  id: question.id,
+                  subject: question.subject,
+                  topic: question.topic,
+                  score: score,
+                  selectedOption,
+                  options, // Save generated options
+                  explanation,
+                  attemptedAt: new Date().toISOString()
+              })
+          });
 
-      toast.success('Answer submitted successfully!');
-      onSubmit(score);
-      onClose();
-    } catch (error) {
-      console.error('Error submitting answer:', error);
-      toast.error('Failed to submit answer. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
+          toast.success('Answer submitted successfully!');
+          onSubmit(score);
+          onClose();
+      } catch (error) {
+          console.error('Error submitting answer:', error);
+          toast.error('Failed to submit answer. Please try again.');
+      } finally {
+          setIsSubmitting(false);
+      }
   };
 
   return (

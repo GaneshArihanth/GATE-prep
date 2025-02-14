@@ -8,38 +8,35 @@ const DiscussionCard = ({ discussion, onReplyAdded }) => {
   const [replyContent, setReplyContent] = useState('');
   const [error, setError] = useState(null);
 
-  const handleReply = async (e) => {
-    e.preventDefault();
-    if (!auth.currentUser) {
-      setError('Please sign in to reply');
-      return;
-    }
+  const handleReply = async () => {
+    if (replyContent.trim() !== '') {
+      try {
+        const discussionRef = doc(db, 'discussions', discussion.id);
 
-    if (!replyContent.trim()) {
+        // Create a new reply object with current timestamp
+        const newReply = {
+          content: replyContent,
+          userId: auth.currentUser.uid,
+          userName: auth.currentUser.displayName || 'Anonymous',
+          timestamp: new Date().toISOString(),
+        };
+
+        // Add the new reply to the discussion's replies array
+        await updateDoc(discussionRef, {
+          replies: arrayUnion(newReply),
+        });
+
+        setReplyContent('');
+        setShowReplyForm(false);
+        setError(null);
+        if (onReplyAdded) onReplyAdded();
+        console.log('Reply added successfully!');
+      } catch (error) {
+        console.error('Error adding reply:', error);
+        setError('Failed to add reply. Please try again.');
+      }
+    } else {
       setError('Reply cannot be empty');
-      return;
-    }
-
-    try {
-      const discussionRef = doc(db, 'discussions', discussion.id);
-      const reply = {
-        content: replyContent,
-        userId: auth.currentUser.uid,
-        userName: auth.currentUser.displayName || 'Anonymous',
-        timestamp: serverTimestamp()
-      };
-
-      await updateDoc(discussionRef, {
-        replies: arrayUnion(reply)
-      });
-
-      setReplyContent('');
-      setShowReplyForm(false);
-      setError(null);
-      if (onReplyAdded) onReplyAdded();
-    } catch (err) {
-      console.error('Error adding reply:', err);
-      setError('Failed to add reply. Please try again.');
     }
   };
 
@@ -53,7 +50,7 @@ const DiscussionCard = ({ discussion, onReplyAdded }) => {
       <div className="discussion-meta">
         <span className="author">Posted by {discussion.userName}</span>
         <span className="timestamp">
-          {discussion.timestamp?.toDate().toLocaleDateString()}
+          {discussion.timestamp?.toDate ? discussion.timestamp.toDate().toLocaleDateString() : new Date(discussion.timestamp).toLocaleDateString()}
         </span>
       </div>
 
@@ -67,7 +64,7 @@ const DiscussionCard = ({ discussion, onReplyAdded }) => {
                 <div className="reply-meta">
                   <span className="author">Replied by {reply.userName}</span>
                   <span className="timestamp">
-                    {reply.timestamp?.toDate().toLocaleDateString()}
+                    {reply.timestamp?.toDate ? reply.timestamp.toDate().toLocaleDateString() : new Date(reply.timestamp).toLocaleDateString()}
                   </span>
                 </div>
               </div>
@@ -83,7 +80,7 @@ const DiscussionCard = ({ discussion, onReplyAdded }) => {
             Reply to Discussion
           </button>
         ) : (
-          <form onSubmit={handleReply} className="reply-form">
+          <form onSubmit={(e) => e.preventDefault()} className="reply-form">
             {error && <div className="error-message">{error}</div>}
             <textarea
               value={replyContent}
@@ -93,7 +90,7 @@ const DiscussionCard = ({ discussion, onReplyAdded }) => {
               required
             />
             <div className="reply-actions">
-              <button type="submit" className="submit-btn">
+              <button type="button" className="submit-btn" onClick={handleReply}>
                 Post Reply
               </button>
               <button 

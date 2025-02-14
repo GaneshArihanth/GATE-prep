@@ -261,13 +261,13 @@ const Problems = () => {
             No problems match your filters. Try adjusting your search criteria.
           </div>
         ) : (
-          filteredProblems.map(problem => {
+          filteredProblems.map((problem, index) => {
             const isCompleted = userProgress?.completedProblems?.some(p => p.id === problem.id);
             const score = userProgress?.completedProblems?.find(p => p.id === problem.id)?.score || 0;
             
             return (
               <div 
-                key={problem.id} 
+                key={`${problem.id}-${index}`} 
                 className={`problem-card ${isCompleted ? 'attempted' : ''}`}
                 onClick={() => handleQuestionClick(problem)}
               >

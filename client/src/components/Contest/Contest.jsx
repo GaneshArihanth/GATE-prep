@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase';
 import { collection, query, orderBy, onSnapshot, Timestamp } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import { createTestData } from '../../utils/createTestData';
 import './Contest.css';
 
 const Contest = () => {
@@ -64,24 +63,10 @@ const Contest = () => {
         return `Starts in: ${days}d ${hours}h ${minutes}m`;
     };
 
-    const handleCreateTest = async () => {
-        try {
-            await createTestData();
-        } catch (error) {
-            console.error('Error creating test:', error);
-        }
-    };
-
     return (
         <div className="contest-container">
             <div className="contest-header">
                 <h1 className="contest-title">Contests</h1>
-                <button 
-                    className="create-test-button"
-                    onClick={handleCreateTest}
-                >
-                    Create Sample Test
-                </button>
             </div>
             
             <div className="tests-grid">

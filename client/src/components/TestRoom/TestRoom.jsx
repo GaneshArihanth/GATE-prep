@@ -19,7 +19,7 @@ const TestRoom = () => {
         const testsRef = collection(db, 'Tests');
         const q = query(testsRef, orderBy('startTime', 'desc'), limit(1));
         
-        const unsubscribe = onSnapshot(q, (snapshot) => {
+        const unsubscribe = onSnapshot(q, async (snapshot) => {
             console.log('Snapshot received:', snapshot); // Log snapshot
             if (!snapshot.empty) {
                 const testData = snapshot.docs[0].data();
@@ -38,8 +38,13 @@ const TestRoom = () => {
                     isActive: now >= startTime && now <= endTime
                 });
 
-                // Only set active test if it's ongoing
-                if (now >= startTime && now <= endTime) {
+                // Check if user has already attempted this test
+                const hasAttempted = testData.submissions?.some(
+                    submission => submission.userId === currentUser?.uid
+                ) ?? false;
+
+                // Only set active test if it's ongoing and not attempted
+                if (now >= startTime && now <= endTime && !hasAttempted) {
                     console.log('Setting active test and fetching questions');
                     setActiveTest({ id: testId, ...testData });
                     setTimeLeft(Math.floor((endTime - now) / 1000));
@@ -125,7 +130,7 @@ const TestRoom = () => {
                 })
             });
 
-            navigate('/dashboard'); // Redirect after submission
+            navigate('/contest'); // Redirect to contest page after submission
         } catch (error) {
             console.error("Error submitting test:", error);
         }
@@ -135,7 +140,9 @@ const TestRoom = () => {
         return (
             <div className="test-room-container">
                 <div className="no-test-message">
-                    No active test at the moment.
+                    {currentUser ? 
+                        "No active test available or you have already attempted the current test." :
+                        "Please log in to access tests."}
                 </div>
             </div>
         );

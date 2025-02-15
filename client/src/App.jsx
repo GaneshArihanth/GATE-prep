@@ -14,6 +14,7 @@ import Navigation from "./components/Navigation/Navigation";
 import Problems from "./components/Problems/Problems";
 import TestRoom from "./components/TestRoom/TestRoom";
 import Contest from "./components/Contest/Contest";
+import TestPage from "./components/TestPage/TestPage"; // Import TestPage component
 import { initializeDatabase } from "./utils/initializeDB";
 
 function App() {
@@ -89,6 +90,14 @@ function App() {
               path="/test-room" 
               element={user ? <TestRoom /> : <Navigate to="/login" />} 
             />
+            <Route 
+              path="/test/:id" 
+              element={user ? <TestRoom /> : <Navigate to="/login" />} 
+            />
+            <Route 
+              path="/test" 
+              element={user ? <TestPage /> : <Navigate to="/login" />} 
+            /> // Add route for the test page
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

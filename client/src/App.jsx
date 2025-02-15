@@ -12,6 +12,8 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import Quiz from "./components/Quiz/Quiz";
 import Navigation from "./components/Navigation/Navigation";
 import Problems from "./components/Problems/Problems";
+import TestRoom from "./components/TestRoom/TestRoom";
+import Contest from "./components/Contest/Contest";
 import { initializeDatabase } from "./utils/initializeDB";
 
 function App() {
@@ -79,7 +81,14 @@ function App() {
               path="/discuss" 
               element={user ? <Discuss /> : <Navigate to="/login" />} 
             />
-            {/* Catch all route for 404 */}
+            <Route 
+              path="/contest" 
+              element={user ? <Contest /> : <Navigate to="/login" />} 
+            />
+            <Route 
+              path="/test-room" 
+              element={user ? <TestRoom /> : <Navigate to="/login" />} 
+            />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

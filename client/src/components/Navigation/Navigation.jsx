@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
-import { FaHome, FaChartLine, FaBook, FaQuestionCircle, FaDatabase, FaSignOutAlt, FaComments } from 'react-icons/fa';
+import { FaHome, FaChartLine, FaBook, FaQuestionCircle, FaDatabase, FaSignOutAlt, FaComments, FaTrophy } from 'react-icons/fa';
 import './Navigation.css';
 
 const Navigation = ({ user }) => {
@@ -29,6 +29,7 @@ const Navigation = ({ user }) => {
     { path: '/dashboard', icon: <FaChartLine />, text: 'Dashboard' },
     { path: '/problems', icon: <FaDatabase />, text: 'Problems' },
     { path: '/quiz', icon: <FaQuestionCircle />, text: 'Quiz' },
+    { path: '/contest', icon: <FaTrophy />, text: 'Contest' },
     { path: '/discuss', icon: <FaComments />, text: 'Discuss' }
   ];
 

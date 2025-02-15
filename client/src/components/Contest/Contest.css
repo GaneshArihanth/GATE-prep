@@ -1,0 +1,120 @@
+.contest-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contest-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.create-test-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.create-test-button:hover {
+    background-color: #388E3C;
+    transform: translateY(-1px);
+}
+
+.create-test-button:active {
+    transform: translateY(0);
+}
+
+.contest-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.tests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.test-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.test-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.test-card.active {
+    border: 2px solid #4CAF50;
+}
+
+.test-card.upcoming {
+    border: 2px solid #2196F3;
+}
+
+.test-card.completed {
+    border: 2px solid #9E9E9E;
+    opacity: 0.8;
+}
+
+.test-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.test-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.test-details p {
+    margin: 0;
+    color: #666;
+}
+
+.time-remaining {
+    color: #2196F3;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.status-badge.active {
+    background-color: #E8F5E9;
+    color: #4CAF50;
+}
+
+.status-badge.upcoming {
+    background-color: #E3F2FD;
+    color: #2196F3;
+}
+
+.status-badge.completed {
+    background-color: #EEEEEE;
+    color: #9E9E9E;
+}

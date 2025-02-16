@@ -5,6 +5,7 @@ import google.generativeai as genai
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": ["http://localhost:5173", "http://127.0.0.1:5173"]}})
+CORS(app, resources={r"/chat": {"origins": "http://localhost:5174"}})
 
 # Set your Gemini API key
 API_KEY = "AIzaSyDDuXicWzcH0kx0C0-ID52bPcaDP95rQDk"

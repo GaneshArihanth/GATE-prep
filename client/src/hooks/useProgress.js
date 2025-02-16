@@ -23,28 +23,38 @@ const useProgress = () => {
     try {
       // Fetch problems
       const problemsRef = collection(db, 'problems');
-      const problemsSnap = await getDocs(problemsRef);
-      const problemsList = problemsSnap.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setProblems(problemsList);
+      try {
+        const problemsSnap = await getDocs(problemsRef);
+        const problemsList = problemsSnap.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setProblems(problemsList);
+      } catch (problemsError) {
+        console.error("Error fetching problems:", problemsError);
+        setError(problemsError);
+      }
 
       // Fetch user progress
-      const progressRef = doc(db, 'userProgress', auth.currentUser.uid);
-      const progressSnap = await getDoc(progressRef);
-      
-      if (progressSnap.exists()) {
-        setUserProgress(progressSnap.data());
-      } else {
-        setUserProgress({
-          completedProblems: [],
-          averageScore: 0
-        });
+      try {
+        const progressRef = doc(db, 'userProgress', auth.currentUser.uid);
+        const progressSnap = await getDoc(progressRef);
+        
+        if (progressSnap.exists()) {
+          setUserProgress(progressSnap.data());
+        } else {
+          setUserProgress({
+            completedProblems: [],
+            totalProblems: 0
+          });
+        }
+      } catch (progressError) {
+        console.error("Error fetching user progress:", progressError);
+        setError(progressError);
       }
-    } catch (err) {
-      console.error('Error fetching data:', err);
-      setError(err.message);
+    } catch (error) {
+      console.error("An unknown error occurred:", error);
+      setError(error);
     } finally {
       setLoading(false);
     }

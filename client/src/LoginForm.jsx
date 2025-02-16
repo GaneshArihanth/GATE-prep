@@ -36,6 +36,25 @@ const LoginForm = () => {
     }
   };
 
+  const handleForgotPassword = async () => {
+    const email = prompt('Enter your email:');
+    const newPassword = prompt('Enter your new password:');
+    if (email && newPassword) {
+      try {
+        // Sign in the user to get the current user
+        const userCredential = await auth.signInWithEmailAndPassword(email, prompt('Enter your current password:'));
+        const user = userCredential.user;
+        // Update password in Firebase
+        await user.updatePassword(newPassword);
+        alert('Password updated successfully!');
+      } catch (error) {
+        alert('Error updating password: ' + error.message);
+      }
+    } else {
+      alert('Email and password must be provided.');
+    }
+  };
+
   return (
     <div className="login-container">
       <div className="login-box">
@@ -43,25 +62,6 @@ const LoginForm = () => {
 
         {/* Login Form */}
         <form className="login-form" onSubmit={handleSubmit}>
-
-          {/* User Role Selection */}
-          <div 
-            className={`role-dropdown-container ${isDropdownOpen ? "expanded" : ""}`} 
-          >
-            <label className="role-label">
-              <FaUser className="icon" /> Select Role:
-              <select 
-                value={userType} 
-                onChange={(e) => setUserType(e.target.value)} 
-                onFocus={() => handleDropdownToggle(true)}
-                onBlur={() => handleDropdownToggle(false)}
-                className="role-dropdown"
-              >
-                <option value="student">Student</option>
-                <option value="teacher">Teacher</option>
-              </select>
-            </label>
-          </div>
 
           {/* Email Field */}
           <div className="input-group">
@@ -91,7 +91,7 @@ const LoginForm = () => {
 
           {/* Forgot Password Link */}
           <p className="forgot-password">
-            <a href="/forgot-password" className="forgot-password-link">Forgot Password?</a>
+            <a href="#" onClick={handleForgotPassword}>Forgot Password?</a>
           </p>
 
           {/* Login Button */}

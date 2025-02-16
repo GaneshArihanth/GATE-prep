@@ -80,11 +80,13 @@ body {
 }
 
 .Toastify__toast--success {
-  background: #4caf50;
+  background: #357c37;
+  color: white;
 }
 
 .Toastify__toast--error {
   background: var(--danger-color);
+  color: white;
 }
 
 /* Responsive design */

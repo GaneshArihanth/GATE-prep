@@ -6,7 +6,7 @@ import LandingPage from "./LandingPage";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import Home from "./Home";
-import { auth } from "./firebase";
+import { auth, db} from "./firebase";
 import Discuss from "./Discuss";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Quiz from "./components/Quiz/Quiz";
@@ -15,24 +15,48 @@ import Problems from "./components/Problems/Problems";
 import TestRoom from "./components/TestRoom/TestRoom";
 import Contest from "./components/Contest/Contest";
 import TestPage from "./components/TestPage/TestPage"; // Import TestPage component
+import TestCreation from "./components/TestCreation/TestCreation";
+import Home2 from "./home2";
+import { doc, getDoc } from "firebase/firestore"; 
 import { initializeDatabase } from "./utils/initializeDB";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       setUser(user);
-      setLoading(false);
 
-      // Initialize database when user logs in
       if (user) {
-        initializeDatabase().catch(error => {
-          console.error('Failed to initialize database:', error);
-          toast.error('Failed to load questions. Please try refreshing the page.');
-        });
+        try {
+          let role = null;
+
+          // Check if user exists in Students collection
+          const studentDoc = await getDoc(doc(db, "Students", user.uid));
+          if (studentDoc.exists()) {
+            role = "student";
+          } else {
+            // If not found in Students, check in Teachers collection
+            const teacherDoc = await getDoc(doc(db, "Teachers", user.uid));
+            if (teacherDoc.exists()) {
+              role = "teacher";
+            }
+          }
+
+          if (role) {
+            setUserRole(role);
+            await initializeDatabase();
+          } else {
+            toast.error("User role not found. Please contact support.");
+          }
+        } catch (error) {
+          console.error("Failed to fetch user role:", error);
+          toast.error("Error fetching user role.");
+        }
       }
+      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -56,15 +80,19 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route 
               path="/login" 
-              element={user ? <Navigate to="/home" /> : <LoginForm />} 
+              element={user ? <Navigate to={userRole === "teacher" ? "/home2" : "/home"} /> : <LoginForm />} 
             />
             <Route 
               path="/register" 
-              element={user ? <Navigate to="/home" /> : <RegisterForm />} 
+              element={user ? <Navigate to={userRole === "teacher" ? "/home2" : "/home"} /> : <RegisterForm />} 
             />
             <Route 
               path="/home" 
-              element={user ? <Home /> : <Navigate to="/login" />} 
+              element={user && userRole === "student" ? <Home /> : <Navigate to="/login" />} 
+            />
+            <Route 
+              path="/home2" 
+              element={user && userRole === "teacher" ? <Home2 /> : <Navigate to="/login" />} 
             />
             <Route 
               path="/problems" 
@@ -83,6 +111,10 @@ function App() {
               element={user ? <Discuss /> : <Navigate to="/login" />} 
             />
             <Route 
+              path="/testcreation" 
+              element={user ? <TestCreation /> : <Navigate to="/login" />} 
+            />
+            <Route 
               path="/contest" 
               element={user ? <Contest /> : <Navigate to="/login" />} 
             />
@@ -97,7 +129,7 @@ function App() {
             <Route 
               path="/test" 
               element={user ? <TestPage /> : <Navigate to="/login" />} 
-            /> // Add route for the test page
+            />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

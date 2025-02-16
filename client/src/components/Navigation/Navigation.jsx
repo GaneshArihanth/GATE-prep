@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase'; // Make sure db is imported from Firebase config
 import { toast } from 'react-toastify';
-import { FaHome, FaChartLine, FaBook, FaQuestionCircle, FaDatabase, FaSignOutAlt, FaComments, FaTrophy } from 'react-icons/fa';
+import { FaHome, FaChartLine, FaBook, FaQuestionCircle, FaDatabase, FaSignOutAlt, FaComments, FaTrophy, FaPlus } from 'react-icons/fa';
+import { doc, getDoc } from "firebase/firestore"; // Make sure to import getDoc from Firestore
 import './Navigation.css';
 
 const Navigation = ({ user }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      if (user) {
+        let userRef;
+        const studentRef = doc(db, "Students", user.uid);  // Ensure you're using 'db' here
+        const teacherRef = doc(db, "Teachers", user.uid);  // Ensure you're using 'db' here
+        
+        const studentSnap = await getDoc(studentRef);
+        const teacherSnap = await getDoc(teacherRef);
+        
+        if (studentSnap.exists()) {
+          setRole("student");
+        } else if (teacherSnap.exists()) {
+          setRole("teacher");
+        }
+      }
+    };
+    fetchUserRole();
+  }, [user]);
 
   const handleLogout = async () => {
     try {
@@ -24,13 +46,19 @@ const Navigation = ({ user }) => {
     return null;
   }
 
-  const navLinks = [
+  const studentNavLinks = [
     { path: '/home', icon: <FaHome />, text: 'Home' },
     { path: '/dashboard', icon: <FaChartLine />, text: 'Dashboard' },
     { path: '/problems', icon: <FaDatabase />, text: 'Problems' },
     { path: '/quiz', icon: <FaQuestionCircle />, text: 'Quiz' },
     { path: '/contest', icon: <FaTrophy />, text: 'Contest' },
     { path: '/discuss', icon: <FaComments />, text: 'Discuss' }
+  ];
+
+  const teacherNavLinks = [
+    { path: '/contest', icon: <FaTrophy />, text: 'Contest' },
+    { path: '/testcreation', icon: <FaPlus />, text: 'Contest Create' },
+    { path: '/discuss', icon: <FaComments />, text: 'Discuss' },
   ];
 
   return (
@@ -41,7 +69,7 @@ const Navigation = ({ user }) => {
         </Link>
 
         <div className="nav-links">
-          {navLinks.map(link => (
+          {(role === 'student' ? studentNavLinks : teacherNavLinks).map(link => (
             <Link 
               key={link.path}
               to={link.path} 

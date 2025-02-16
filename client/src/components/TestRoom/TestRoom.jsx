@@ -11,49 +11,61 @@ const TestRoom = () => {
     const [questions, setQuestions] = useState([]);
     const [currentAnswers, setCurrentAnswers] = useState({});
     const [timeLeft, setTimeLeft] = useState(0);
+    const [hasSubmitted, setHasSubmitted] = useState(false);
+    const [userRole, setUserRole] = useState(null); // To store if the user is a student or teacher
     const currentUser = auth.currentUser;
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Listen for active test
+        if (!currentUser) return;
+
+        // Fetch user role from Firestore
+        const checkUserRole = async () => {
+            try {
+                const teacherRef = doc(db, 'Teachers', currentUser.uid);
+                const teacherSnap = await getDoc(teacherRef);
+                
+                if (teacherSnap.exists()) {
+                    setUserRole('teacher'); // User is a teacher
+                } else {
+                    const studentRef = doc(db, 'Students', currentUser.uid);
+                    const studentSnap = await getDoc(studentRef);
+
+                    if (studentSnap.exists()) {
+                        setUserRole('student'); // User is a student
+                    } else {
+                        setUserRole('unknown'); // Unknown role
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching user role:', error);
+            }
+        };
+
+        checkUserRole();
+    }, [currentUser]);
+
+    useEffect(() => {
         const testsRef = collection(db, 'Tests');
         const q = query(testsRef, orderBy('startTime', 'desc'), limit(1));
         
         const unsubscribe = onSnapshot(q, async (snapshot) => {
-            console.log('Snapshot received:', snapshot); // Log snapshot
             if (!snapshot.empty) {
                 const testData = snapshot.docs[0].data();
                 const testId = snapshot.docs[0].id;
-                console.log('Active test data:', testData);
                 
-                // Convert timestamps to milliseconds for comparison
                 const now = Timestamp.now().toMillis();
                 const startTime = testData.startTime.toMillis();
                 const endTime = testData.endTime.toMillis();
-                
-                console.log('Time comparison:', {
-                    now: new Date(now).toLocaleString(),
-                    startTime: new Date(startTime).toLocaleString(),
-                    endTime: new Date(endTime).toLocaleString(),
-                    isActive: now >= startTime && now <= endTime
-                });
 
-                // Check if user has already attempted this test
-                const hasAttempted = testData.submissions?.some(
-                    submission => submission.userId === currentUser?.uid
-                ) ?? false;
-
-                // Only set active test if it's ongoing and not attempted
-                if (now >= startTime && now <= endTime && !hasAttempted) {
-                    console.log('Setting active test and fetching questions');
+                const userSubmission = testData.submissions?.find(submission => submission.userId === currentUser?.uid);
+                if (userSubmission) {
+                    setHasSubmitted(true);
+                } else if (now >= startTime && now <= endTime) {
                     setActiveTest({ id: testId, ...testData });
                     setTimeLeft(Math.floor((endTime - now) / 1000));
                     fetchQuestions(testData.mcqQuestions, testData.natQuestions);
-                } else {
-                    console.log('Test is not currently active');
                 }
-            } else {
-                console.log('No active test found.'); // Log when no active test is found
             }
         });
 
@@ -67,58 +79,46 @@ const TestRoom = () => {
             }, 1000);
 
             return () => clearInterval(timer);
-        } else if (timeLeft === 0 && activeTest) {
+        } else if (timeLeft === 0 && activeTest && userRole === 'student') {
             submitTest();
         }
     }, [timeLeft]);
 
     const fetchQuestions = async (mcqIds, natIds) => {
-        console.log('Fetching questions for MCQ IDs:', mcqIds, 'and NAT IDs:', natIds); // Log question IDs
         try {
-            // Fetch MCQ questions
             const mcqQuestions = await Promise.all(
                 mcqIds.map(async (id) => {
                     const docRef = doc(db, 'MCQ_Questions', id);
                     const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
-                        console.log('MCQ question fetched:', docSnap.data()); // Log fetched MCQ question
-                        return { id: docSnap.id, ...docSnap.data(), type: 'mcq' };
-                    }
-                    return null;
+                    return docSnap.exists() ? { id: docSnap.id, ...docSnap.data(), type: 'mcq' } : null;
                 })
             );
 
-            // Fetch NAT questions
             const natQuestions = await Promise.all(
                 natIds.map(async (id) => {
                     const docRef = doc(db, 'NAT_Questions', id);
                     const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
-                        console.log('NAT question fetched:', docSnap.data()); // Log fetched NAT question
-                        return { id: docSnap.id, ...docSnap.data(), type: 'nat' };
-                    }
-                    return null;
+                    return docSnap.exists() ? { id: docSnap.id, ...docSnap.data(), type: 'nat' } : null;
                 })
             );
 
-            // Combine and filter out any null values
-            const allQuestions = [...mcqQuestions, ...natQuestions].filter(q => q !== null);
-            console.log('All questions fetched:', allQuestions); // Log all fetched questions
-            setQuestions(allQuestions);
+            setQuestions([...mcqQuestions, ...natQuestions].filter(q => q !== null));
         } catch (error) {
             console.error('Error fetching questions:', error);
         }
     };
 
     const handleAnswerChange = (questionId, answer) => {
-        setCurrentAnswers(prev => ({
-            ...prev,
-            [questionId]: answer
-        }));
+        if (userRole === 'student') {
+            setCurrentAnswers(prev => ({
+                ...prev,
+                [questionId]: answer
+            }));
+        }
     };
 
     const submitTest = async () => {
-        if (!activeTest || !currentUser) return;
+        if (!activeTest || !currentUser || userRole !== 'student') return;
 
         try {
             const submissionRef = doc(db, 'Tests', activeTest.id);
@@ -130,19 +130,28 @@ const TestRoom = () => {
                 })
             });
 
-            navigate('/contest'); // Redirect to contest page after submission
+            setHasSubmitted(true);
+            navigate('/dashboard');
         } catch (error) {
             console.error("Error submitting test:", error);
         }
     };
 
+    if (hasSubmitted) {
+        return (
+            <div className="test-room-container">
+                <div className="no-test-message">
+                    You have already submitted this test.
+                </div>
+            </div>
+        );
+    }
+
     if (!activeTest) {
         return (
             <div className="test-room-container">
                 <div className="no-test-message">
-                    {currentUser ? 
-                        "No active test available or you have already attempted the current test." :
-                        "Please log in to access tests."}
+                    No active test at the moment.
                 </div>
             </div>
         );
@@ -176,6 +185,7 @@ const TestRoom = () => {
                                             value={option}
                                             checked={currentAnswers[question.id] === option}
                                             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
+                                            disabled={userRole === 'teacher'} // Disable inputs for teachers
                                         />
                                         <span>{option}</span>
                                     </label>
@@ -188,18 +198,21 @@ const TestRoom = () => {
                                 onChange={(e) => handleAnswerChange(question.id, e.target.value)}
                                 placeholder="Type your answer here..."
                                 className="nat-input"
+                                disabled={userRole === 'teacher'} // Disable input for teachers
                             />
                         )}
                     </div>
                 ))}
             </div>
 
-            <button
-                onClick={submitTest}
-                className="submit-button"
-            >
-                Submit Test
-            </button>
+            {userRole === 'student' && (
+                <button
+                    onClick={submitTest}
+                    className="submit-button"
+                >
+                    Submit Test
+                </button>
+            )}
         </div>
     );
 };

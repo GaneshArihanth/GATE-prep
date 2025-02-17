@@ -7,12 +7,12 @@ import {getFirestore} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDYJ2PkAZcvzAszxIFkXl_HvJmt0GdbIks",
-  authDomain: "gate-analysis.firebaseapp.com",
-  projectId: "gate-analysis",
-  storageBucket: "gate-analysis.firebasestorage.app",
-  messagingSenderId: "63448854301",
-  appId: "1:63448854301:web:79ad6223444c0d3ba5bbf4"
+  apiKey: "AIzaSyBcagKosfOY21oMP3T-sKe6Npp1JcjSkeo",
+  authDomain: "fir-b52e7.firebaseapp.com",
+  projectId: "fir-b52e7",
+  storageBucket: "fir-b52e7.firebasestorage.app",
+  messagingSenderId: "726454873438",
+  appId: "1:726454873438:web:9dbc355ad232c5deccf3cf"
 };
 
 // Initialize Firebase

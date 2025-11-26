@@ -16,7 +16,7 @@ import TestRoom from "./components/TestRoom/TestRoom";
 import Contest from "./components/Contest/Contest";
 import TestPage from "./components/TestPage/TestPage"; // Import TestPage component
 import TestCreation from "./components/TestCreation/TestCreation";
-import Home2 from "./home2";
+import Home2 from "./Home2";
 import { doc, getDoc } from "firebase/firestore"; 
 import { initializeDatabase } from "./utils/initializeDB";
 

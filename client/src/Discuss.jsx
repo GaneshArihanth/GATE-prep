@@ -102,7 +102,7 @@ const Discuss = () => {
     setIsChatLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5001/chat', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -127,7 +127,7 @@ const Discuss = () => {
           <h1>{showAIChat ? 'AI Assistant' : 'Community Discussions'}</h1>
           <p>{showAIChat ? 'Get instant help from our AI tutor' : 'Share your doubts and help others learn'}</p>
         </div>
-        <button 
+        <button
           className={`toggle-btn ${showAIChat ? 'ai-active' : ''}`}
           onClick={() => setShowAIChat(!showAIChat)}
         >

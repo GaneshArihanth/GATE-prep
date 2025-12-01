@@ -41,7 +41,7 @@ General Rules:
 def index():
     return render_template('index.html')
 
-@app.route('/chat', methods=['POST'])
+@app.route('/api/chat', methods=['POST'])
 def chat():
     user_input = request.form['user_input']
     

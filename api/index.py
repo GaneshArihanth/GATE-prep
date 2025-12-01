@@ -12,7 +12,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Set your Gemini API key
 API_KEY = os.getenv("GEMINI_API_KEY")
-client = genai.Client(api_key=API_KEY)
+# client = genai.Client(api_key=API_KEY) # Moved inside chat function
 
 # Store chat history
 history = []
@@ -65,6 +65,11 @@ def chat():
         # (Simple implementation: just append history to contents if supported, 
         # but for now let's stick to single turn with system instruction to ensure stability first)
         
+        # Initialize client here to avoid startup crash if env var is missing
+        if not API_KEY:
+            return jsonify({"error": "GEMINI_API_KEY not set on server"}), 500
+        client = genai.Client(api_key=API_KEY)
+
         response = client.models.generate_content(
             model="gemini-2.5-flash", 
             contents=user_input,

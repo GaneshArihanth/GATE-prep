@@ -45,6 +45,8 @@ def index():
 def debug():
     return jsonify({"message": "Debug route working", "path": request.path})
 
+# Handle both /api/chat and /chat to be safe
+@app.route('/chat', methods=['POST', 'GET', 'OPTIONS'])
 @app.route('/api/chat', methods=['POST', 'GET', 'OPTIONS'])
 def chat():
     if request.method == 'OPTIONS':

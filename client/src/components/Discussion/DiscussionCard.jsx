@@ -17,7 +17,7 @@ const DiscussionCard = ({ discussion, onReplyAdded }) => {
         const newReply = {
           content: replyContent,
           userId: auth.currentUser.uid,
-          userName: auth.currentUser.displayName || 'Anonymous',
+          userName: auth.currentUser.displayName || auth.currentUser.email.split('@')[0] || 'Anonymous',
           timestamp: new Date().toISOString(),
         };
 
@@ -73,7 +73,7 @@ const DiscussionCard = ({ discussion, onReplyAdded }) => {
         )}
 
         {!showReplyForm ? (
-          <button 
+          <button
             className="reply-btn"
             onClick={() => setShowReplyForm(true)}
           >
@@ -93,8 +93,8 @@ const DiscussionCard = ({ discussion, onReplyAdded }) => {
               <button type="button" className="submit-btn" onClick={handleReply}>
                 Post Reply
               </button>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="cancel-btn"
                 onClick={() => {
                   setShowReplyForm(false);

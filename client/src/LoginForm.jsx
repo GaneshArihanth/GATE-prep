@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
 import "./Login.css"; // Import styles
-import { signInWithEmailAndPassword } from "firebase/auth";
-import {auth} from "./firebase";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "./firebase";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -23,35 +23,29 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
+    try {
       const email = formData.email;
       const password = formData.password;
-      await signInWithEmailAndPassword(auth,email,password);
+      await signInWithEmailAndPassword(auth, email, password);
       console.log("User login successfully");
       toast.success("user login successfully");
       navigate("/home");
     }
-    catch(error){
+    catch (error) {
       toast.warning(error.message);
     }
   };
 
   const handleForgotPassword = async () => {
-    const email = prompt('Enter your email:');
-    const newPassword = prompt('Enter your new password:');
-    if (email && newPassword) {
+    const email = prompt('Enter your email to reset password:', formData.email);
+    if (email) {
       try {
-        // Sign in the user to get the current user
-        const userCredential = await auth.signInWithEmailAndPassword(email, prompt('Enter your current password:'));
-        const user = userCredential.user;
-        // Update password in Firebase
-        await user.updatePassword(newPassword);
-        alert('Password updated successfully!');
+        await sendPasswordResetEmail(auth, email);
+        toast.success('Password reset email sent! Check your inbox.');
       } catch (error) {
-        alert('Error updating password: ' + error.message);
+        console.error("Error sending password reset email:", error);
+        toast.error('Error: ' + error.message);
       }
-    } else {
-      alert('Email and password must be provided.');
     }
   };
 
@@ -66,26 +60,26 @@ const LoginForm = () => {
           {/* Email Field */}
           <div className="input-group">
             <FaEnvelope className="icon" />
-            <input 
-              type="email" 
-              name="email" 
-              placeholder="Email" 
-              value={formData.email} 
-              onChange={handleChange} 
-              required 
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
             />
           </div>
 
           {/* Password Field */}
           <div className="input-group">
             <FaLock className="icon" />
-            <input 
-              type="password" 
-              name="password" 
-              placeholder="Password" 
-              value={formData.password} 
-              onChange={handleChange} 
-              required 
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
             />
           </div>
 

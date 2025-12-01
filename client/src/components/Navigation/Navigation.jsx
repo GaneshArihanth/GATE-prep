@@ -14,17 +14,22 @@ const Navigation = ({ user }) => {
   useEffect(() => {
     const fetchUserRole = async () => {
       if (user) {
-        let userRef;
-        const studentRef = doc(db, "Students", user.uid);  // Ensure you're using 'db' here
-        const teacherRef = doc(db, "Teachers", user.uid);  // Ensure you're using 'db' here
-        
-        const studentSnap = await getDoc(studentRef);
-        const teacherSnap = await getDoc(teacherRef);
-        
-        if (studentSnap.exists()) {
-          setRole("student");
-        } else if (teacherSnap.exists()) {
-          setRole("teacher");
+        try {
+          let userRef;
+          const studentRef = doc(db, "Students", user.uid);  // Ensure you're using 'db' here
+          const teacherRef = doc(db, "Teachers", user.uid);  // Ensure you're using 'db' here
+
+          const studentSnap = await getDoc(studentRef);
+          const teacherSnap = await getDoc(teacherRef);
+
+          if (studentSnap.exists()) {
+            setRole("student");
+          } else if (teacherSnap.exists()) {
+            setRole("teacher");
+          }
+        } catch (error) {
+          console.error("Error fetching user role in Navigation:", error);
+          // Don't show toast here to avoid duplicate toasts with App.jsx
         }
       }
     };
@@ -70,9 +75,9 @@ const Navigation = ({ user }) => {
 
         <div className="nav-links">
           {(role === 'student' ? studentNavLinks : teacherNavLinks).map(link => (
-            <Link 
+            <Link
               key={link.path}
-              to={link.path} 
+              to={link.path}
               className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
             >
               {link.icon}
@@ -85,12 +90,12 @@ const Navigation = ({ user }) => {
           {user && (
             <>
               <div className="user-info">
-                <div className="user-avatar-container">
+                <Link to="/profile" className="user-avatar-container">
                   <div className="user-avatar">
                     {user.email[0].toUpperCase()}
                   </div>
                   <div className="custom-tooltip">{user.email}</div>
-                </div>
+                </Link>
 
               </div>
               <button onClick={handleLogout} className="logout-button">

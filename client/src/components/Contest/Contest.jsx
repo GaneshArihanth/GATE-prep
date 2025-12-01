@@ -23,7 +23,7 @@ const Contest = () => {
         // Listen for tests
         const testsRef = collection(db, 'Tests');
         const q = query(testsRef, orderBy('startTime', 'desc'));
-        
+
         const unsubscribe = onSnapshot(q, async (snapshot) => {
             const testsList = snapshot.docs.map(doc => ({
                 id: doc.id,
@@ -53,17 +53,13 @@ const Contest = () => {
     };
 
     const handleTestClick = (test) => {
-        console.log('handleTestClick called');
         const status = getTestStatus(test.startTime, test.endTime);
         const attempted = isTestAttempted(test, currentUser?.uid);
 
-        console.log(`Test ID: ${test.id}, Status: ${status}, Attempted: ${attempted}`);
 
         if (status === 'active' && !attempted) {
-            console.log('Navigating to test');
             navigate(`/test/${test.id}`);
         } else if (attempted || status === 'completed') {
-            console.log('Showing test results');
             setSelectedTest(test);
             setShowResults(true);
         }
@@ -87,20 +83,19 @@ const Contest = () => {
     const getTimeRemaining = (startTime) => {
         const now = new Date();
         const diff = startTime - now;
-        
+
         if (diff <= 0) return '';
-        
+
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        
+
         return `Starts in: ${days}d ${hours}h ${minutes}m`;
     };
 
     const calculateTestPerformance = async (test) => {
         if (!test.submissions || !test.submissions.length) return null;
 
-        console.log('Submissions:', test.submissions); // Log submissions
 
         try {
             let totalParticipants = test.submissions.length;
@@ -117,8 +112,6 @@ const Contest = () => {
 
             // Calculate scores based on submissions
             test.submissions.forEach(submission => {
-                console.log('Submission:', submission); // Log each submission
-                console.log('Submission Answers:', submission.answers); // Log submission answers
 
                 if (submission.answers && typeof submission.answers === 'object' && Object.keys(submission.answers).length > 0) {
                     let score = 0;
@@ -136,8 +129,6 @@ const Contest = () => {
                 }
             });
 
-            console.log('Total Score:', totalScore); // Log total score
-            console.log('User Score:', userScore); // Log user score
 
             if (totalParticipants === 0 || !test.submissions[0] || !test.submissions[0].answers || Object.keys(test.submissions[0].answers).length === 0) {
                 return {
@@ -152,8 +143,6 @@ const Contest = () => {
             const averageScore = totalScore / totalParticipants;
             const averageAccuracy = (totalScore / (totalParticipants * Object.keys(correctAnswers).length)) * 100;
 
-            console.log('Average Score:', averageScore); // Log average score
-            console.log('Average Accuracy:', averageAccuracy); // Log average accuracy
 
             return {
                 averageScore,
@@ -171,23 +160,23 @@ const Contest = () => {
     return (
         <div className="contest-container">
             {showResults && selectedTest && (
-                <TestResultsModal 
-                    test={selectedTest} 
-                    performance={testPerformance[selectedTest.id]} 
+                <TestResultsModal
+                    test={selectedTest}
+                    performance={testPerformance[selectedTest.id]}
                 />
             )}
             <div className="contest-header">
                 <h1 className="contest-title">Contests</h1>
             </div>
-            
+
             <div className="tests-grid">
                 {tests.map((test) => {
                     const status = getTestStatus(test.startTime, test.endTime);
                     const performance = testPerformance[test.id];
 
                     return (
-                        <div 
-                            key={test.id} 
+                        <div
+                            key={test.id}
                             className={`test-card ${status}`}
                             onClick={() => handleTestClick(test)}
                         >
@@ -210,12 +199,12 @@ const Contest = () => {
                                             <FaUsers className="icon" />
                                             <span>{performance.totalParticipants} Participants</span>
                                         </div>
-                                        
+
                                         <div className="performance-stat">
                                             <FaTrophy className="icon" />
                                             <span>Avg Score: {performance.averageScore.toFixed(1)}</span>
                                         </div>
-                                        
+
                                         <div className="performance-stat">
                                             <FaBullseye className="icon" />
                                             <span>Avg Accuracy: {performance.averageAccuracy.toFixed(1)}%</span>

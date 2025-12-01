@@ -41,9 +41,17 @@ General Rules:
 def index():
     return render_template('index.html')
 
-@app.route('/api/chat', methods=['POST'])
+@app.route('/api/chat', methods=['POST', 'GET', 'OPTIONS'])
 def chat():
-    user_input = request.form['user_input']
+    if request.method == 'OPTIONS':
+        return jsonify({}), 200
+    
+    if request.method == 'GET':
+        return jsonify({"message": "Chat API is running"}), 200
+
+    user_input = request.form.get('user_input')
+    if not user_input:
+        return jsonify({"error": "No user_input provided"}), 400
     
     try:
         # Constructing contents with history for context

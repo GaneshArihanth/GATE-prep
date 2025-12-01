@@ -41,6 +41,10 @@ General Rules:
 def index():
     return render_template('index.html')
 
+@app.route('/api/debug', methods=['GET'])
+def debug():
+    return jsonify({"message": "Debug route working", "path": request.path})
+
 @app.route('/api/chat', methods=['POST', 'GET', 'OPTIONS'])
 def chat():
     if request.method == 'OPTIONS':

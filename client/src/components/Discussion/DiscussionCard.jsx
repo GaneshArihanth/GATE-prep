@@ -18,6 +18,7 @@ const DiscussionCard = ({ discussion, onReplyAdded }) => {
           content: replyContent,
           userId: auth.currentUser.uid,
           userName: auth.currentUser.displayName || auth.currentUser.email.split('@')[0] || 'Anonymous',
+          userEmail: auth.currentUser.email,
           timestamp: new Date().toISOString(),
         };
 
@@ -48,7 +49,7 @@ const DiscussionCard = ({ discussion, onReplyAdded }) => {
       </div>
       <p className="discussion-content">{discussion.content}</p>
       <div className="discussion-meta">
-        <span className="author">Posted by {discussion.userName}</span>
+        <span className="author">Posted by {discussion.userName === 'Anonymous' && discussion.userEmail ? discussion.userEmail.split('@')[0] : discussion.userName}</span>
         <span className="timestamp">
           {discussion.timestamp?.toDate ? discussion.timestamp.toDate().toLocaleDateString() : new Date(discussion.timestamp).toLocaleDateString()}
         </span>
@@ -62,7 +63,7 @@ const DiscussionCard = ({ discussion, onReplyAdded }) => {
               <div key={index} className="reply-card">
                 <p className="reply-content">{reply.content}</p>
                 <div className="reply-meta">
-                  <span className="author">Replied by {reply.userName}</span>
+                  <span className="author">Replied by {reply.userName === 'Anonymous' && reply.userEmail ? reply.userEmail.split('@')[0] : reply.userName}</span>
                   <span className="timestamp">
                     {reply.timestamp?.toDate ? reply.timestamp.toDate().toLocaleDateString() : new Date(reply.timestamp).toLocaleDateString()}
                   </span>

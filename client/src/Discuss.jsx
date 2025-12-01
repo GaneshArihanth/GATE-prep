@@ -76,6 +76,7 @@ const Discuss = () => {
         subject: newPost.subject,
         userId: auth.currentUser.uid,
         userName: auth.currentUser.displayName || auth.currentUser.email.split('@')[0] || 'Anonymous',
+        userEmail: auth.currentUser.email,
         timestamp: serverTimestamp(),
         replies: []
       });

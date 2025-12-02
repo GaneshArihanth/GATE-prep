@@ -7,23 +7,34 @@
 
 ## 🚀 Key Features
 
-### 🤖 AI-Powered Tutor
-- **Instant Doubt Resolution**: Integrated with **Google Gemini 2.5 Flash**, our AI tutor provides accurate, context-aware answers to your technical queries.
-- **24/7 Availability**: Get help whenever you study, without waiting for human instructors.
-- **Smart Explanations**: Complex concepts broken down into easy-to-understand summaries.
+## 🚀 Features & Usage Guide
 
-### 💬 Collaborative Community
-- **Discussion Forums**: Post questions, share knowledge, and discuss strategies with fellow aspirants.
-- **Subject-Wise Categorization**: Organized threads for subjects like *Operating Systems*, *DBMS*, *Algorithms*, and more.
-- **Real-Time Updates**: Powered by **Firebase Firestore** for instant synchronization of posts and replies.
+### 1. 🤖 AI-Powered Tutor
+**What it is:** A personal tutor that never sleeps. It uses Google's Gemini 2.5 Flash model to answer your GATE-related questions instantly.
+**How to use:**
+- Click the **"Switch to AI Chat"** button on the top right of the discussion page.
+- Type your question (e.g., *"Explain the concept of Paging in OS"*).
+- The AI will provide a detailed, context-aware explanation instantly.
 
-### 📊 Performance Analytics
-- **Visual Progress Tracking**: Interactive charts (powered by **Chart.js**) to monitor your study consistency and topic coverage.
-- **Personalized Insights**: Identify strong and weak areas to optimize your preparation strategy.
+### 2. 💬 Collaborative Community Forum
+**What it is:** A space to discuss doubts with other students.
+**How to use:**
+- **Post a Doubt:** Click "Start a New Discussion", select a subject (e.g., *Algorithms*), and post your question.
+- **Reply:** Click on any discussion card to view details and add your answer or comment.
+- **Real-time:** New posts and replies appear instantly without refreshing the page!
 
-### 🔐 Secure & Seamless
-- **Robust Authentication**: Secure login and registration using **Firebase Authentication**.
-- **User Profiles**: Manage your activity, saved discussions, and personal settings.
+### 3. 📊 Performance Analytics
+**What it is:** Visual charts that track your study progress.
+**How to use:**
+- Go to your **User Profile**.
+- View the **"Study Consistency"** chart to see your daily activity.
+- Check the **"Topic Coverage"** chart to see which subjects you are focusing on most.
+
+### 4. 🔐 Secure Authentication
+**What it is:** Keeps your data safe and personalized.
+**How to use:**
+- Sign up using your **Email/Password** or **Google Account**.
+- Your profile, saved discussions, and analytics are automatically linked to your account.
 
 ---
 
@@ -51,135 +62,128 @@
 
 ## 🏁 Getting Started & Deployment Guide
 
-This guide is designed for beginners to help you set up and deploy the GATE-prep platform.
+This comprehensive guide is designed for beginners to help you set up, run, and deploy the GATE-prep platform from scratch.
 
-### Prerequisites
-Before you begin, ensure you have the following installed:
-- **Node.js** (v16+): [Download Here](https://nodejs.org/)
-- **Python** (v3.8+): [Download Here](https://www.python.org/downloads/)
-- **Git**: [Download Here](https://git-scm.com/downloads)
-- A **Google Cloud / Firebase** account.
-- A **Vercel** account for deployment.
+### 📋 Prerequisites
+Before you start, you need to install a few free tools:
+1.  **Node.js** (Version 16 or newer): [Download & Install](https://nodejs.org/)
+    - *Why?* Required to run the React frontend.
+2.  **Python** (Version 3.8 or newer): [Download & Install](https://www.python.org/downloads/)
+    - *Why?* Required to run the Flask backend.
+3.  **Git**: [Download & Install](https://git-scm.com/downloads)
+    - *Why?* To download the code.
+4.  **VS Code** (Recommended): A good code editor makes this easier.
 
 ---
 
-### 🛠️ Local Development Setup
+### 🛠️ Step 1: Local Setup (Running on your computer)
 
-Follow these steps to run the project on your own computer.
-
-#### 1. Clone the Repository
-Open your terminal or command prompt and run:
+#### 1. Download the Code
+Open your terminal (Command Prompt on Windows, Terminal on Mac) and run:
 ```bash
 git clone https://github.com/GaneshArihanth/GATE-prep.git
 cd GATE-prep
 ```
 
-#### 2. Backend Setup (Python/Flask)
-The backend handles the AI logic and API requests.
+#### 2. Setup the Backend (The Brain)
+The backend uses Python to talk to Google's AI.
 ```bash
-# Navigate to the root folder if not already there
-# Install the required Python libraries
+# Install the required libraries
 pip install -r requirements.txt
+# Note: If 'pip' doesn't work, try 'pip3'
 ```
 
-**Configure Backend Environment:**
-1. Create a file named `.env` in the root directory.
-2. Add your Google Gemini API Key (Get it from [Google AI Studio](https://aistudio.google.com/)):
-   ```env
-   GEMINI_API_KEY=your_actual_api_key_here
-   ```
+**🔑 Configure API Key:**
+1.  Go to [Google AI Studio](https://aistudio.google.com/) and click "Get API Key".
+2.  Create a new file named `.env` in the **root** folder (`GATE-prep/`).
+3.  Open it and paste your key like this:
+    ```env
+    GEMINI_API_KEY=AIzaSyD...your_actual_key_here...
+    ```
 
-**Start the Backend Server:**
+**▶️ Start the Backend:**
 ```bash
 python api/index.py
+# If that fails, try: python3 api/index.py
 ```
-*You should see: `Running on http://127.0.0.1:5001`*
+*Success Message: `Running on http://127.0.0.1:5001`*
 
-#### 3. Frontend Setup (React/Vite)
-The frontend is the user interface you see in the browser.
+#### 3. Setup the Frontend (The Interface)
+Open a **new** terminal window (keep the backend running!).
 ```bash
-# Open a NEW terminal window
 cd client
-
-# Install all JavaScript dependencies
 npm install
 ```
 
-**Configure Frontend Environment:**
-1. Create a file named `.env` in the `client` folder.
-2. Add your Firebase configuration (See *Firebase Setup* below):
-   ```env
-   VITE_FIREBASE_API_KEY=...
-   VITE_FIREBASE_AUTH_DOMAIN=...
-   VITE_FIREBASE_PROJECT_ID=...
-   VITE_FIREBASE_STORAGE_BUCKET=...
-   VITE_FIREBASE_MESSAGING_SENDER_ID=...
-   VITE_FIREBASE_APP_ID=...
-   ```
+**🔥 Configure Firebase (Database):**
+1.  Go to [Firebase Console](https://console.firebase.google.com/).
+2.  Click **"Add project"** -> Name it "GATE-prep".
+3.  **Enable Authentication**:
+    - Build > Authentication > Get Started.
+    - Click "Email/Password" > Enable > Save.
+    - Click "Google" > Enable > Save.
+4.  **Enable Database**:
+    - Build > Firestore Database > Create Database.
+    - Select a location (e.g., `nam5` or `asia-south1`).
+    - Choose **"Start in Test Mode"**.
+5.  **Get Your Keys**:
+    - Click the ⚙️ (Gear icon) > Project Settings.
+    - Scroll down to "Your apps" > Click `</>` (Web icon).
+    - Register app (enter any name).
+    - **Copy** the `firebaseConfig` values shown.
+6.  **Save Keys**:
+    - Create a file named `.env` in the `client/` folder.
+    - Paste the values in this format:
+      ```env
+      VITE_FIREBASE_API_KEY=AIzaSy...
+      VITE_FIREBASE_AUTH_DOMAIN=gate-prep.firebaseapp.com
+      VITE_FIREBASE_PROJECT_ID=gate-prep
+      VITE_FIREBASE_STORAGE_BUCKET=gate-prep.appspot.com
+      VITE_FIREBASE_MESSAGING_SENDER_ID=123456...
+      VITE_FIREBASE_APP_ID=1:12345...
+      ```
 
-**Start the Frontend:**
+**▶️ Start the Frontend:**
 ```bash
 npm run dev
 ```
-*Open the link shown (usually `http://localhost:5173`) in your browser.*
+*Click the link shown (e.g., `http://localhost:5173`) to open the app!*
 
 ---
 
-### ☁️ Deployment Guide (Vercel)
+### ☁️ Step 2: Deployment (Putting it on the internet)
 
-We recommend **Vercel** for deploying both the frontend and backend easily.
+We use **Vercel** because it's free and easy.
 
-#### 1. Prepare for Deployment
-Ensure you have the Vercel CLI installed:
-```bash
-npm install -g vercel
-```
+#### Option A: The Easy Way (Vercel Dashboard)
+1.  Push your code to your own GitHub repository.
+2.  Go to [Vercel.com](https://vercel.com) and Log in.
+3.  Click **"Add New..."** > **"Project"**.
+4.  Find your `GATE-prep` repo and click **Import**.
+5.  **IMPORTANT: Environment Variables**:
+    - Click to expand the **"Environment Variables"** section.
+    - You MUST add every key from your `.env` files here.
+    - Add `GEMINI_API_KEY` (value from your root `.env`).
+    - Add `VITE_FIREBASE_API_KEY` (value from client `.env`).
+    - ...repeat for all 6 Firebase keys.
+6.  Click **Deploy**.
+7.  Wait ~1 minute. You'll get a live URL!
 
-#### 2. Deploy
-Run the following command from the **root** of your project:
-```bash
-vercel
-```
-- **Set up and deploy?** [Y]
-- **Which scope?** [Select your account]
-- **Link to existing project?** [N]
-- **Project Name:** gate-prep (or your choice)
-- **In which directory is your code located?** ./
-- **Want to modify these settings?** [N]
-
-Vercel will detect the `vercel.json` configuration and deploy both the Python API and React Frontend.
-
-#### 3. Environment Variables on Vercel
-Once the deployment starts, go to your [Vercel Dashboard](https://vercel.com/dashboard):
-1. Select your project.
-2. Go to **Settings** > **Environment Variables**.
-3. Add all the variables from your local `.env` files:
-   - `GEMINI_API_KEY`
-   - `VITE_FIREBASE_API_KEY`
-   - `VITE_FIREBASE_AUTH_DOMAIN`
-   - ...and the rest of the Firebase config.
-4. **Redeploy** your project (Deployments > Redeploy) for the changes to take effect.
+#### Option B: The Hacker Way (Command Line)
+1.  Install Vercel CLI: `npm install -g vercel`
+2.  Run `vercel` in the root folder.
+3.  Follow the prompts (Say 'Yes' to everything).
+4.  Go to the Vercel Dashboard to add your Environment Variables (as shown in Option A).
+5.  Run `vercel --prod` to update.
 
 ---
 
-### 🔥 Detailed Firebase Setup
+### ❓ Troubleshooting
 
-1. **Create Project**: Go to [Firebase Console](https://console.firebase.google.com/) and click "Add project".
-2. **Authentication**:
-   - Go to **Build** > **Authentication**.
-   - Click **Get Started**.
-   - Enable **Email/Password** and **Google** sign-in providers.
-3. **Firestore Database**:
-   - Go to **Build** > **Firestore Database**.
-   - Click **Create Database**.
-   - Choose a location (e.g., `nam5` or `asia-south1`).
-   - Start in **Test Mode** (for development) or **Production Mode** (if you set up rules).
-4. **Get Config**:
-   - Click the **Gear Icon** (Project Settings) > **General**.
-   - Scroll to "Your apps" and click the **</>** (Web) icon.
-   - Register app (e.g., "GATE-prep-web").
-   - Copy the `firebaseConfig` values and paste them into your `client/.env` file.
-
+- **"pip command not found"**: Try using `pip3` or `python -m pip`.
+- **"npm command not found"**: Make sure you installed Node.js.
+- **"Firebase permission denied"**: Check your Firestore Rules. Ensure you are in "Test Mode" or have proper rules set up.
+- **"API Key error"**: Double-check your `.env` file names. They must be exactly `.env` (not `.env.txt`).
 
 ---
 

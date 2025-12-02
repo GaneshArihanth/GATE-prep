@@ -1,7 +1,7 @@
 # 🎓 GATE-prep
 > **Your Ultimate AI-Powered GATE Preparation Companion**
 
-![GATE-prep Banner](https://via.placeholder.com/1200x400?text=GATE-prep+AI+Learning+Platform)
+![GATE-prep Banner](assets/banner.png)
 
 **GATE-prep** is a cutting-edge educational platform designed to streamline the preparation journey for the Graduate Aptitude Test in Engineering (GATE). By combining the power of **Google's Gemini AI** with a robust community forum and real-time analytics, we provide aspirants with a personalized and interactive learning experience.
 

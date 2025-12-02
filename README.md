@@ -5,9 +5,7 @@
 
 ---
 
-## 🚀 Key Features
-
-## 🚀 Features & Usage Guide
+## 🚀 Key Features & Usage Guide
 
 ### 1. 📅 Weekly Tests & Practice Sessions
 **What it is:** Regular assessments to keep you exam-ready.

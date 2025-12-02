@@ -9,32 +9,45 @@
 
 ## 🚀 Features & Usage Guide
 
-### 1. 🤖 AI-Powered Tutor
-**What it is:** A personal tutor that never sleeps. It uses Google's Gemini 2.5 Flash model to answer your GATE-related questions instantly.
+### 1. 📅 Weekly Tests & Practice Sessions
+**What it is:** Regular assessments to keep you exam-ready.
 **How to use:**
-- Click the **"Switch to AI Chat"** button on the top right of the discussion page.
-- Type your question (e.g., *"Explain the concept of Paging in OS"*).
-- The AI will provide a detailed, context-aware explanation instantly.
+- **Weekly Tests:** Participate in scheduled tests every week to benchmark your performance against others.
+- **Practice Sessions:** Create custom practice sets for specific subjects or topics to strengthen your weak areas.
+- **Real Exam Simulation:** Experience the pressure of the actual GATE exam with timed tests.
 
-### 2. 💬 Collaborative Community Forum
-**What it is:** A space to discuss doubts with other students.
+### 2. 👨‍🏫 Teacher Portal & Monitoring
+**What it is:** A dedicated dashboard for educators to manage and track students.
 **How to use:**
-- **Post a Doubt:** Click "Start a New Discussion", select a subject (e.g., *Algorithms*), and post your question.
-- **Reply:** Click on any discussion card to view details and add your answer or comment.
-- **Real-time:** New posts and replies appear instantly without refreshing the page!
+- **Teacher Login:** Educators can log in to a specialized dashboard (`/home2`).
+- **Create Contests:** Teachers can design and schedule contests for their students.
+- **Monitor Progress:** Track student participation, scores, and performance trends in real-time.
 
-### 3. 📊 Performance Analytics
-**What it is:** Visual charts that track your study progress.
+### 3. 📊 Advanced Student Analytics
+**What it is:** Deep insights into your learning curve.
 **How to use:**
-- Go to your **User Profile**.
-- View the **"Study Consistency"** chart to see your daily activity.
-- Check the **"Topic Coverage"** chart to see which subjects you are focusing on most.
+- **Performance Analytics:** Visual charts showing your accuracy, completion rates, and subject-wise strength.
+- **Relative Performance:** Compare your scores with the community average to see where you stand.
+- **Study Consistency:** Track your daily activity streaks to maintain discipline.
 
-### 4. 🔐 Secure Authentication
-**What it is:** Keeps your data safe and personalized.
+### 4. 📚 Extensive Question Bank (500+)
+**What it is:** A massive repository of GATE-level questions.
 **How to use:**
-- Sign up using your **Email/Password** or **Google Account**.
-- Your profile, saved discussions, and analytics are automatically linked to your account.
+- **500+ Questions:** Access a vast library of questions across all major subjects like *Algorithms*, *OS*, *DBMS*, and *Maths*.
+- **Dynamic Generation:** Questions are dynamically generated to ensure variety and prevent rote learning.
+- **Difficulty Levels:** Filter questions by Easy, Medium, or Hard to match your preparation level.
+
+### 5. 🤖 AI-Powered Tutor
+**What it is:** Your 24/7 study companion.
+**How to use:**
+- **Instant Doubt Resolution:** Ask any technical question to the Gemini AI and get immediate, detailed explanations.
+- **Concept Clarification:** Get complex topics broken down into simple, digestible summaries.
+
+### 6. 💬 Collaborative Community
+**What it is:** Learn together with peers.
+**How to use:**
+- **Discussion Forums:** Post doubts and get answers from the community.
+- **Knowledge Sharing:** Share resources, tips, and strategies with fellow aspirants.
 
 ---
 

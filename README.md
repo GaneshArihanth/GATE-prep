@@ -3,6 +3,18 @@
 
 **GATE-prep** is a cutting-edge educational platform designed to streamline the preparation journey for the Graduate Aptitude Test in Engineering (GATE). By combining the power of **Google's Gemini AI** with a robust community forum and real-time analytics, we provide aspirants with a personalized and interactive learning experience.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![React](https://img.shields.io/badge/React-18.2-blue)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-5.0-purple)](https://vitejs.dev/)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.x-000000)](https://flask.palletsprojects.com/)
+[![Google Gemini](https://img.shields.io/badge/Google%20Gemini-GenAI-4285F4)](https://ai.google.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-Auth%20%26%20Firestore-FFCA28)](https://firebase.google.com/)
+[![Chart.js](https://img.shields.io/badge/Chart.js-4.x-FF6384)](https://www.chartjs.org/)
+[![React Router](https://img.shields.io/badge/React%20Router-6.x-CA4245)](https://reactrouter.com/)
+[![Toastify](https://img.shields.io/badge/React%20Toastify-9.x-46a2f1)](https://fkhadra.github.io/react-toastify/)
+[![Vercel](https://img.shields.io/badge/Vercel-Hosting-000000)](https://vercel.com/)
+
 ---
 
 ## 🚀 Key Features & Usage Guide
